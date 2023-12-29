@@ -47,7 +47,7 @@ export const ProductsCard: React.FC<ProductsCardProps> = ({ children }) => {
             </div>
           </CardContent>
           <CardFooter className="flex justify-end mt-auto">
-            <Button variant={"outline"}>
+            <Button>
               See More <ArrowRightIcon />
             </Button>
           </CardFooter>
