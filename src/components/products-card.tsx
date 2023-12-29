@@ -20,7 +20,7 @@ type ProductsCardProps = {
 
 export const ProductsCard: React.FC<ProductsCardProps> = ({ children }) => {
   return (
-    <div className="flex flex-col h-screen w-screen">
+    <div className="flex flex-col h-screen w-screen overflow-hidden">
       <div className="flex-grow overflow-auto">
         <Card className="w-11/12 mx-auto my-9 min-h-[92%] flex flex-col">
           <CardHeader>
