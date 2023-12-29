@@ -5,7 +5,7 @@ import { useState } from "react";
 export function Navbar() {
   return (
     <div className="container flex h-14 max-w-screen-2xl items-center">
-      <div className="mr-4 hidden md:flex">
+      <div className="mr-4 flex">
         <a
           className="mr-6 flex items-center justify-center  space-x-2"
           href="/"
@@ -17,7 +17,7 @@ export function Navbar() {
             alt="butterfly"
             priority
           />
-          <span className="hidden font-bold sm:inline-block">Butterfly</span>
+          <span className="inline-block font-bold ">Butterfly</span>
         </a>
         <nav className="flex items-center gap-6 text-sm">
           <a
@@ -28,7 +28,7 @@ export function Navbar() {
           </a>
         </nav>
       </div>
-      <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+      <div className="flex flex-1 items-center justify-end space-x-2 ">
         <nav className="flex items-center">
           <a
             target="_blank"
