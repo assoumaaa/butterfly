@@ -1,14 +1,13 @@
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { ModeToggle } from "@/components/mode-toggle";
+import { RowProductCard } from "@/components/row-products-card";
+import { products } from "../../public/products";
 
 export default function Home() {
   return (
     <main>
-      <div>Hello World</div>
-      <div>
-        <Button variant="outline">Secondary</Button>
-      </div>
+      <RowProductCard title="Best Sellers" products={products} />
+      <RowProductCard title="Jaquard Collection" products={products} />
+      <RowProductCard title="Winter Collection" products={products} />
+      <RowProductCard title="Summer Collection" products={products} />
     </main>
   );
 }
