@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ProductsCard } from "@/components/products-card";
 import { products } from "../../../public/products";
 
@@ -6,9 +7,10 @@ export default function ProductsPage() {
   return (
     <ProductsCard>
       {products.map((product) => (
-        <div
+        <Link
           key={product.id}
           className="p-2 flex flex-col items-center gap-3 border border-gray-200"
+          href={`/products/${product.id}`}
         >
           <Image
             alt={product.name}
@@ -33,7 +35,7 @@ export default function ProductsPage() {
               ))}
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </ProductsCard>
   );

@@ -80,7 +80,7 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "infinite-scroll": "infinite-scroll 30s linear infinite",
+        "infinite-scroll": "infinite-scroll 55s linear infinite",
       },
       height: {
         screen: "calc(100vh - 3.5rem)",
