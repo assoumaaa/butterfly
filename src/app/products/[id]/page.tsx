@@ -13,8 +13,8 @@ export default function ProductPage() {
 
   return (
     product && (
-      <div className="flex h-screen w-11/12 gap-8">
-        <div className="flex-1 flex items-center justify-end">
+      <div className="flex h-screen w-screen  gap-8 p-6 flex-col md:flex-row md:p-0 md:w-11/12">
+        <div className="flex-1 flex items-center justify-center">
           <Image
             width={500}
             height={500}
@@ -25,7 +25,7 @@ export default function ProductPage() {
           />
         </div>
         <div className="flex-1 flex flex-col justify-center">
-          <div className="h-1/2 gap-4 flex flex-col">
+          <div className="h-full gap-4 flex flex-col md:h-1/2">
             <h1 className="text-3xl font-bold">{product.name}</h1>
             <Badge className="w-fit text-sm">{product.code}</Badge>
             <Separator className="my-3" />
