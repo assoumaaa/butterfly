@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ProductsCard } from "@/components/product/products-card";
+import { ProductsCard } from "./components/products-card";
 import { db } from "@/db";
 
 export default async function ProductsPage() {
@@ -24,7 +24,7 @@ export default async function ProductsPage() {
 					<div className="flex flex-col items-center gap-3">
 						<p className="text-sm">{product.code}</p>
 						<div className="flex text-xs text-slate-400 gap-4">
-							<p>{product.weightGSM} KG</p>
+							<p>{product.weightGSM} GSM</p>
 							<p>{product.width} CM</p>
 						</div>
 						<div className="flex">

@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { usePathname } from "next/navigation";
 
 export default async function ProductPage({
 	params,
@@ -36,7 +35,7 @@ export default async function ProductPage({
 						<Badge className="w-fit text-sm">{product.code}</Badge>
 						<Separator className="my-3" />
 						<span>
-							<strong>Weight:</strong> {product.weightGSM} KG
+							<strong>Weight:</strong> {product.weightGSM} GSM
 						</span>
 						<span>
 							<strong>Width:</strong> {product.width} CM
