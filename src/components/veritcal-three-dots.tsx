@@ -12,20 +12,58 @@ import {
 import { Button } from "@/components/ui/button";
 import { Dialog } from "./dialog";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import { deleteProduct } from "@/actions/product/product";
+import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
-export function VerticalThreeDots() {
+export function VerticalThreeDots({ id }: { id: string }) {
+	const { toast } = useToast();
+	const router = useRouter();
+
+	const [deleteDialog, setDeleteDialog] = React.useState(false);
+
+	const handleDeleteProduct = () => {
+		deleteProduct(id);
+		setDeleteDialog(false);
+		router.push("/products");
+		toast({
+			title: "Product Deleted!",
+			description: "Product has been deleted from the database",
+			variant: "destructive",
+		});
+	};
+
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button variant={"ghost"} size="icon">
-					<DotsVerticalIcon className="h-[1.2rem] w-[1.2rem]" />
-					<span className="sr-only">Product options</span>
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<DropdownMenuItem>Edit</DropdownMenuItem>
-				<DropdownMenuItem>Delete</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant={"ghost"} size="icon">
+						<DotsVerticalIcon className="h-[1.2rem] w-[1.2rem]" />
+						<span className="sr-only">Product options</span>
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					<DropdownMenuItem>Edit</DropdownMenuItem>
+					<DropdownMenuItem>
+						<div onClick={() => setDeleteDialog(true)} className="flex w-full">
+							Delete
+						</div>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+			{deleteDialog && (
+				<Dialog
+					open={deleteDialog}
+					title="Delete this product?"
+					description="This will permanently delete this product from your store."
+					okButton="Delete"
+					cancelButton="Cancel"
+					onPositiveClicked={handleDeleteProduct}
+					onNegativeClicked={() => setDeleteDialog(false)}
+					variant={"destructive"}
+					onOpenChange={setDeleteDialog}
+				/>
+			)}
+		</>
 	);
 }

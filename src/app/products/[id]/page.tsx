@@ -34,7 +34,7 @@ export default async function ProductPage({
 					<div className="h-full gap-4 flex flex-col md:h-1/2">
 						<div className="flex justify-between">
 							<h1 className="text-3xl font-bold">{product.name}</h1>
-							<VerticalThreeDots />
+							<VerticalThreeDots id={id} />
 						</div>
 						<Badge className="w-fit text-sm">{product.code}</Badge>
 						<Separator className="my-3" />

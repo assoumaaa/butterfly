@@ -14,6 +14,7 @@ import { AddProductDialog } from "./add-product-dialog";
 import { Dialog } from "@/components/dialog";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type ProductsCardProps = {
 	children: React.ReactNode;
@@ -24,6 +25,8 @@ export const ProductsCard: React.FC<ProductsCardProps> = ({ children }) => {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const { replace } = useRouter();
+
+	const [addProductDialog, setAddProductDialog] = useState(false);
 
 	const handleSearch = (term: string) => {
 		const params = new URLSearchParams(searchParams);
@@ -50,12 +53,11 @@ export const ProductsCard: React.FC<ProductsCardProps> = ({ children }) => {
 								className="w-1/3"
 							/>
 							<div className="flex md:gap-4 ">
-								<AddProductDialog />
-								<Dialog
-									buttonText="Compare"
-									title="Compare Products"
-									okButton="Compare"
-								></Dialog>
+								<AddProductDialog
+									open={addProductDialog}
+									onOpenChange={setAddProductDialog}
+								/>
+								<Dialog title="Compare Products" okButton="Compare"></Dialog>
 							</div>
 						</CardDescription>
 					</CardHeader>

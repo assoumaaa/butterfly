@@ -27,7 +27,13 @@ const projectSchema = z.object({
 	code: z.string().min(1, "Product Code is required"),
 });
 
-export function AddProductDialog() {
+export function AddProductDialog({
+	open,
+	onOpenChange,
+}: {
+	open: boolean;
+	onOpenChange: (open: boolean) => void;
+}) {
 	const { toast } = useToast();
 
 	const form = useForm({
@@ -44,6 +50,7 @@ export function AddProductDialog() {
 
 	function onSubmit(values: z.infer<typeof projectSchema>) {
 		addProduct(values);
+		onOpenChange(false);
 		toast({
 			title: "Product Added!",
 			description: "Product has been added to the database",
@@ -53,10 +60,10 @@ export function AddProductDialog() {
 
 	return (
 		<Dialog
+			open={open}
+			onOpenChange={onOpenChange}
 			title="Add Product"
 			description="Add a new product to the database"
-			buttonText="Add"
-			okButton="Add"
 			formId="add-product"
 		>
 			<Form {...form}>

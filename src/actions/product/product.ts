@@ -14,3 +14,13 @@ export async function addProduct(productInfo: Product) {
 
 	revalidatePath("/products");
 }
+
+export async function deleteProduct(id: string) {
+	await db.product.delete({
+		where: {
+			id: id,
+		},
+	});
+
+	revalidatePath("/products");
+}
