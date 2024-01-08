@@ -3,8 +3,18 @@ import Link from "next/link";
 import { ProductsCard } from "./components/products-card";
 import { db } from "@/db";
 
-export default async function ProductsPage() {
-	const products = await db.product.findMany();
+export default async function ProductsPage({
+	searchParams,
+}: {
+	searchParams: { [key: string]: string | string[] | undefined };
+}) {
+	const products = await db.product.findMany({
+		where: {
+			name: {
+				contains: searchParams.name?.toString() ?? "",
+			},
+		},
+	});
 
 	return (
 		<ProductsCard>

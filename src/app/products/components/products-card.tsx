@@ -8,10 +8,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import { AddProductDialog } from "./add-product-dialog";
 import { Dialog } from "@/components/dialog";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 type ProductsCardProps = {
 	children: React.ReactNode;
@@ -19,6 +21,20 @@ type ProductsCardProps = {
 };
 
 export const ProductsCard: React.FC<ProductsCardProps> = ({ children }) => {
+	const searchParams = useSearchParams();
+	const pathname = usePathname();
+	const { replace } = useRouter();
+
+	const handleSearch = (term: string) => {
+		const params = new URLSearchParams(searchParams);
+		if (term) {
+			params.set("name", term);
+		} else {
+			params.delete("name");
+		}
+		replace(`${pathname}?${params.toString()}`);
+	};
+
 	return (
 		<div className="flex flex-col h-screen w-screen overflow-hidden">
 			<div className="flex-grow overflow-auto">
@@ -26,7 +42,13 @@ export const ProductsCard: React.FC<ProductsCardProps> = ({ children }) => {
 					<CardHeader>
 						<CardTitle>Products</CardTitle>
 						<CardDescription className="flex justify-between">
-							<Input type="search" placeholder="Search" className="w-1/3" />
+							<Input
+								type="search"
+								placeholder="Search"
+								onChange={(event) => handleSearch(event.target.value)}
+								defaultValue={searchParams?.get("name".toString()) ?? ""}
+								className="w-1/3"
+							/>
 							<div className="flex md:gap-4 ">
 								<AddProductDialog />
 								<Dialog
