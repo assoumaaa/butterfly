@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import { VerticalThreeDots } from "@/components/veritcal-three-dots";
 import { db } from "@/db";
 
 export default async function ProductPage({
@@ -29,9 +30,12 @@ export default async function ProductPage({
 						style={{ borderRadius: "3%" }}
 					/>
 				</div>
-				<div className="flex-1 flex flex-col justify-center">
+				<div className="flex-1 flex flex-col justify-center relative">
 					<div className="h-full gap-4 flex flex-col md:h-1/2">
-						<h1 className="text-3xl font-bold">{product.name}</h1>
+						<div className="flex justify-between">
+							<h1 className="text-3xl font-bold">{product.name}</h1>
+							<VerticalThreeDots />
+						</div>
 						<Badge className="w-fit text-sm">{product.code}</Badge>
 						<Separator className="my-3" />
 						<span>
