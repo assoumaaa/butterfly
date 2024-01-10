@@ -11,11 +11,11 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 
-import { Dialog } from "../../../components/dialog";
+import { Dialog } from "../../components/dialog";
 import { Input } from "@/components/ui/input";
 import { addProduct } from "@/actions/product/product";
 import { useForm } from "react-hook-form";
-import { useToast } from "../../../components/ui/use-toast";
+import { useToast } from "../../components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const projectSchema = z.object({

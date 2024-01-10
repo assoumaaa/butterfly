@@ -1,9 +1,15 @@
+"use client";
+import { UploadButton } from "../components/uploadthing";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ProductsCard } from "./components/products-card";
+import { ProductsCard } from "../components/products-card";
+
 import { db } from "@/db";
 
 export default async function ProductsPage({
+
+	
 	searchParams,
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -17,6 +23,26 @@ export default async function ProductsPage({
 	});
 
 	return (
+
+		<main className="flex min-h-screen flex-col items-center justify-between p-24">
+
+
+
+<UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
+
+    
+
 		<ProductsCard>
 			{products.map((product) => (
 				<Link
@@ -50,5 +76,7 @@ export default async function ProductsPage({
 				</Link>
 			))}
 		</ProductsCard>
+
+		</main>
 	);
 }
