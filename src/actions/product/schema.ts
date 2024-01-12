@@ -5,7 +5,7 @@ export const ProductSchema = z.object({
 	color: z.string(),
 	weightGSM: z.coerce.number(),
 	width: z.coerce.number(),
-	composition: z.string(),
+	composition: z.any(),
 	code: z.string(),
 });
 

@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Dialog } from "./dialog";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import { EditProductDialog } from "@/app/products/components/edit-product-dialog";
 import { deleteProduct } from "@/actions/product/product";
 import { useRouter } from "next/navigation";
 import { useToast } from "./ui/use-toast";
@@ -21,6 +22,7 @@ export function VerticalThreeDots({ id }: { id: string }) {
 	const router = useRouter();
 
 	const [deleteDialog, setDeleteDialog] = React.useState(false);
+	const [editDialog, setEditDialog] = React.useState(false);
 
 	const handleDeleteProduct = () => {
 		deleteProduct(id);
@@ -43,11 +45,11 @@ export function VerticalThreeDots({ id }: { id: string }) {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
-					<DropdownMenuItem>Edit</DropdownMenuItem>
-					<DropdownMenuItem>
-						<div onClick={() => setDeleteDialog(true)} className="flex w-full">
-							Delete
-						</div>
+					<DropdownMenuItem onClick={() => setEditDialog(true)}>
+						Edit
+					</DropdownMenuItem>
+					<DropdownMenuItem onClick={() => setDeleteDialog(true)}>
+						Delete
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
@@ -62,7 +64,11 @@ export function VerticalThreeDots({ id }: { id: string }) {
 					onNegativeClicked={() => setDeleteDialog(false)}
 					variant={"destructive"}
 					onOpenChange={setDeleteDialog}
+					noTrigger
 				/>
+			)}
+			{editDialog && (
+				<EditProductDialog open={editDialog} onOpenChange={setEditDialog} />
 			)}
 		</>
 	);

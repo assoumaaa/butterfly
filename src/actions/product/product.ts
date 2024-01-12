@@ -24,3 +24,27 @@ export async function deleteProduct(id: string) {
 
 	revalidatePath("/products");
 }
+
+export async function editProduct(productInfo: Product, id: string) {
+	const product = ProductSchema.partial().parse(productInfo);
+
+	await db.product.update({
+		where: {
+			id: id,
+		},
+		data: product,
+	});
+
+	revalidatePath(`/products/${id}`);
+	revalidatePath("/products");
+}
+
+export async function getProduct(id: string) {
+	const product = await db.product.findUnique({
+		where: {
+			id: id,
+		},
+	});
+
+	return ProductSchema.parse(product);
+}

@@ -10,8 +10,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 
-// TO:DO - okButton to JSON, will include information about button colors etc,
-// TO:DO - create a new AddProductDialog, that will use DialogComponent and this will be called in /products
 // TO:DO - add a parameter like 'xl' or 'lg' that will make the dialog bigger, but also maintain the responsiveness
 
 interface DialogProps {
@@ -24,6 +22,7 @@ interface DialogProps {
 	onNegativeClicked?: () => void;
 	onOpenChange?: (open: boolean) => void;
 	formId?: string;
+	noTrigger?: boolean;
 	variant?:
 		| "default"
 		| "link"
@@ -45,17 +44,19 @@ export function Dialog({
 	onPositiveClicked,
 	onNegativeClicked,
 	onOpenChange,
-
 	formId,
+	noTrigger = false,
 	variant = "default",
 	children,
 	...rest
 }: DialogProps) {
 	return (
 		<UiDialog open={open} {...rest} onOpenChange={onOpenChange}>
-			<DialogTrigger asChild>
-				<Button variant="outline">{okButton}</Button>
-			</DialogTrigger>
+			{!noTrigger && (
+				<DialogTrigger asChild>
+					<Button variant="outline">{okButton}</Button>
+				</DialogTrigger>
+			)}
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
