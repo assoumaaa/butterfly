@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { ModeToggle } from "./mode-toggle";
-import { useState } from "react";
 
 export function Navbar() {
 	return (
@@ -25,6 +24,18 @@ export function Navbar() {
 					href="/products"
 				>
 					Products
+				</a>
+				<a
+					className="transition-colors hover:text-foreground/80 text-foreground/60"
+					href="/rendering"
+				>
+					3D Rendering
+				</a>
+				<a
+					className="transition-colors hover:text-foreground/80 text-foreground/60"
+					href="/rendering"
+				>
+					Recolor
 				</a>
 			</nav>
 			<div className="flex items-center">
