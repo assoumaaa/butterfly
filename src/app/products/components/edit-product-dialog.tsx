@@ -68,7 +68,7 @@ export function EditProductDialog({
 			}
 		};
 		getCurrentProduct();
-	}, [id]);
+	}, [id, form]);
 
 	function onSubmit(values: z.infer<typeof productSchema>) {
 		editProduct(values, id);
