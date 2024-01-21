@@ -1,13 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import {
-	ColorPicker,
-	CustomButton,
-	FilePicker,
-	Tab,
-	TextureLogoPicker,
-} from ".";
+import { ColorPicker, CustomButton, Tab, TextureLogoPicker } from ".";
 import {
 	DecalTypes,
 	EditorTabs,
