@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import ConvexClientProvider from "@/context/convex-client-provider";
 import { Inter as FontSans } from "next/font/google";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
@@ -24,12 +25,13 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={fontSans.className}>
-				{" "}
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-					<Navbar />
-					{children}
-					<Toaster />
-				</ThemeProvider>
+				<ConvexClientProvider>
+					<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+						<Navbar />
+						{children}
+						<Toaster />
+					</ThemeProvider>
+				</ConvexClientProvider>
 			</body>
 		</html>
 	);

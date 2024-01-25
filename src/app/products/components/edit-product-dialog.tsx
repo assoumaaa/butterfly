@@ -83,6 +83,7 @@ export function EditProductDialog({
 		<Dialog
 			open={open}
 			onOpenChange={onOpenChange}
+			onNegativeClicked={() => onOpenChange(false)}
 			title="Edit Product"
 			description="Edit product's information"
 			okButton="Save"

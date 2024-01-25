@@ -4,7 +4,7 @@ import { v } from "convex/values";
 export const addImage = mutation({
 	args: {
 		image: v.string(),
-		productId: v.int64(),
+		productId: v.string(),
 	},
 	handler: async (ctx, args) => {
 		await ctx.db.insert("images", {

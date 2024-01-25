@@ -57,8 +57,8 @@ export function Dialog({
 					<Button variant="outline">{okButton}</Button>
 				</DialogTrigger>
 			)}
-			<DialogContent className="sm:max-w-[425px]">
-				<DialogHeader>
+			<DialogContent className="sm:max-w-[650px]">
+				<DialogHeader className="items-start">
 					<DialogTitle>{title}</DialogTitle>
 					<DialogDescription>{description}</DialogDescription>
 				</DialogHeader>
@@ -66,7 +66,6 @@ export function Dialog({
 				<DialogFooter>
 					<Button
 						type="submit"
-						form={formId}
 						onClick={() => onNegativeClicked?.()}
 						variant={"secondary"}
 					>

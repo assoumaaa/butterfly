@@ -21,7 +21,7 @@ export function Navbar() {
 			<nav className="flex items-center justify-center gap-6 text-sm">
 				<a
 					className="transition-colors hover:text-foreground/80 text-foreground/60"
-					href="/products"
+					href="/"
 				>
 					Products
 				</a>

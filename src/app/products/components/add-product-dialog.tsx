@@ -10,11 +10,16 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 
 import { Dialog } from "../../../components/dialog";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { addProduct } from "@/actions/product/product";
+import { api } from "../../../../convex/_generated/api";
 import { useForm } from "react-hook-form";
+import { useMutation } from "convex/react";
+import { useState } from "react";
 import { useToast } from "../../../components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -35,6 +40,9 @@ export function AddProductDialog({
 	onOpenChange: (open: boolean) => void;
 }) {
 	const { toast } = useToast();
+
+	const [image, setImage] = useState("");
+	const generateUploadUrl = useMutation(api.files.generateUploadUrl);
 
 	const form = useForm({
 		resolver: zodResolver(projectSchema),
@@ -61,100 +69,125 @@ export function AddProductDialog({
 	return (
 		<Dialog
 			open={open}
-			onOpenChange={onOpenChange}
 			title="Add Product"
 			description="Add a new product to the database"
 			formId="add-product"
+			onOpenChange={onOpenChange}
+			onNegativeClicked={() => onOpenChange(false)}
 		>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
 					id="add-product"
-					className="space-y-2 p-5"
+					className="flex items-center justify-center w-full"
 				>
-					<FormField
-						control={form.control}
-						name="name"
-						render={({ field, fieldState }) => (
-							<FormItem>
-								<FormLabel>Name</FormLabel>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
-								<FormMessage>{fieldState.error?.message}</FormMessage>
-							</FormItem>
-						)}
-					/>
+					<div className="space-y-2 p-5 flex-1">
+						<FormField
+							control={form.control}
+							name="name"
+							render={({ field, fieldState }) => (
+								<FormItem>
+									<FormLabel>Name</FormLabel>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
+									<FormMessage>{fieldState.error?.message}</FormMessage>
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name="color"
-						render={({ field, fieldState }) => (
-							<FormItem>
-								<FormLabel>Color</FormLabel>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
-								<FormMessage>{fieldState.error?.message}</FormMessage>
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name="color"
+							render={({ field, fieldState }) => (
+								<FormItem>
+									<FormLabel>Color</FormLabel>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
+									<FormMessage>{fieldState.error?.message}</FormMessage>
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name="weightGSM"
-						render={({ field, fieldState }) => (
-							<FormItem>
-								<FormLabel>Weight (GSM)</FormLabel>
-								<FormControl>
-									<Input type="number" {...field} />
-								</FormControl>
-								<FormMessage>{fieldState.error?.message}</FormMessage>
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name="weightGSM"
+							render={({ field, fieldState }) => (
+								<FormItem>
+									<FormLabel>Weight (GSM)</FormLabel>
+									<FormControl>
+										<Input type="number" {...field} />
+									</FormControl>
+									<FormMessage>{fieldState.error?.message}</FormMessage>
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name="width"
-						render={({ field, fieldState }) => (
-							<FormItem>
-								<FormLabel>Width</FormLabel>
-								<FormControl>
-									<Input type="number" {...field} />
-								</FormControl>
-								<FormMessage>{fieldState.error?.message}</FormMessage>
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name="width"
+							render={({ field, fieldState }) => (
+								<FormItem>
+									<FormLabel>Width</FormLabel>
+									<FormControl>
+										<Input type="number" {...field} />
+									</FormControl>
+									<FormMessage>{fieldState.error?.message}</FormMessage>
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name="composition"
-						render={({ field, fieldState }) => (
-							<FormItem>
-								<FormLabel>Composition</FormLabel>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
-								<FormMessage>{fieldState.error?.message}</FormMessage>
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name="composition"
+							render={({ field, fieldState }) => (
+								<FormItem>
+									<FormLabel>Composition</FormLabel>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
+									<FormMessage>{fieldState.error?.message}</FormMessage>
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name="code"
-						render={({ field, fieldState }) => (
-							<FormItem>
-								<FormLabel>Product Code</FormLabel>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
-								<FormMessage>{fieldState.error?.message}</FormMessage>
-							</FormItem>
+						<FormField
+							control={form.control}
+							name="code"
+							render={({ field, fieldState }) => (
+								<FormItem>
+									<FormLabel>Product Code</FormLabel>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
+									<FormMessage>{fieldState.error?.message}</FormMessage>
+								</FormItem>
+							)}
+						/>
+					</div>
+					<div className="flex-1 ">
+						{!image ? (
+							<UploadButton
+								uploadUrl={generateUploadUrl}
+								fileTypes={["image/*"]}
+								onUploadComplete={async (uploaded: UploadFileResponse[]) => {
+									setImage((uploaded[0].response as any).storageId);
+								}}
+								onUploadError={(error: unknown) => {
+									alert(`ERROR! ${error}`);
+								}}
+							/>
+						) : (
+							<Image
+								src={`${process.env.NEXT_PUBLIC_CONVEX_URL}/api/storage/${image}`}
+								width={500}
+								height={500}
+								style={{ borderRadius: "3%" }}
+								alt="Product Image"
+							/>
 						)}
-					/>
+					</div>
 				</form>
 			</Form>
 		</Dialog>
