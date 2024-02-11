@@ -7,6 +7,7 @@ export const ProductSchema = z.object({
 	width: z.coerce.number(),
 	composition: z.any(),
 	code: z.string(),
+	image: z.string().optional(),
 });
 
 export type Product = z.infer<typeof ProductSchema>;

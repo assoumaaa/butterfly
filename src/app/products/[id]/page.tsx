@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { VerticalThreeDots } from "@/components/veritcal-three-dots";
-import { db } from "@/db";
+import { getImageUrl } from "@/lib/utils";
+import { getProduct } from "@/actions/product/product";
 
 export default async function ProductPage({
 	params,
@@ -11,21 +12,18 @@ export default async function ProductPage({
 	params: { id: string };
 }) {
 	const { id } = params;
-	const product = await db.product.findUnique({
-		where: {
-			id: id,
-		},
-	});
+
+	const product = await getProduct(id);
 
 	return (
 		product && (
-			<div className="flex h-screen w-screen  gap-8 p-6 flex-col md:flex-row md:p-0 md:w-11/12">
+			<div className="flex h-screen w-screen gap-8 p-6">
 				<div className="flex-1 flex items-center justify-end">
 					<Image
 						width={500}
 						height={500}
 						alt="product"
-						src={"/mock-products/ex1.jpeg"}
+						src={getImageUrl(product.image)}
 						priority
 						style={{ borderRadius: "3%" }}
 					/>
@@ -59,8 +57,7 @@ export default async function ProductPage({
 							))}
 						</div>
 						<Separator className="my-3" />
-						<Button>RECOLOR</Button>
-						<Button>3D DESIGN</Button>
+						<Button className="w-1/2">3D DESIGN</Button>
 					</div>
 				</div>
 			</div>

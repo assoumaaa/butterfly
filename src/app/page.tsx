@@ -2,19 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductsCard } from "./products/components/products-card";
 import { db } from "@/db";
+import { getImageUrl } from "@/lib/utils";
+import { getProducts } from "@/actions/product/product";
 
 export default async function ProductsPage({
 	searchParams,
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	const products = await db.product.findMany({
-		where: {
-			name: {
-				contains: searchParams.name?.toString() ?? "",
-			},
-		},
-	});
+	const products = await getProducts(searchParams);
 
 	return (
 		<ProductsCard>
@@ -24,13 +20,15 @@ export default async function ProductsPage({
 					className="p-2 flex flex-col items-center gap-3 border border-gray-200"
 					href={`/products/${product.id}`}
 				>
-					<Image
-						alt={product.name}
-						width={220}
-						height={200}
-						src={"/mock-products/ex1.jpeg"}
-						style={{ borderRadius: "3%", maxHeight: "220px" }}
-					/>
+					<div className="relative" style={{ width: "220px", height: "240px" }}>
+						<Image
+							alt={product.name}
+							src={getImageUrl(product?.image ?? "")}
+							objectFit="cover"
+							layout="fill"
+							style={{ borderRadius: "3%" }}
+						/>
+					</div>
 					<div className="flex flex-col items-center gap-3">
 						<p className="text-sm">{product.code}</p>
 						<div className="flex text-xs text-slate-400 gap-4">

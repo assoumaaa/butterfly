@@ -1,5 +1,7 @@
 "use client";
 
+import "@xixixao/uploadstuff/react/styles.css";
+
 import * as z from "zod";
 
 import {
@@ -17,10 +19,12 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { addProduct } from "@/actions/product/product";
 import { api } from "../../../../convex/_generated/api";
+import { getImageUrl } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { useMutation } from "convex/react";
 import { useState } from "react";
 import { useToast } from "../../../components/ui/use-toast";
+import { v4 } from "uuid";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const projectSchema = z.object({
@@ -42,7 +46,10 @@ export function AddProductDialog({
 	const { toast } = useToast();
 
 	const [image, setImage] = useState("");
+	const [isUploading, setIsUploading] = useState(false);
+
 	const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+	const addImage = useMutation(api.images.addImage);
 
 	const form = useForm({
 		resolver: zodResolver(projectSchema),
@@ -57,7 +64,22 @@ export function AddProductDialog({
 	});
 
 	function onSubmit(values: z.infer<typeof projectSchema>) {
-		addProduct(values);
+		if (isUploading) {
+			toast({
+				title: "Image Uploading",
+				description: "Please wait until the image has finished uploading.",
+				className: "text-orange-500",
+			});
+			return;
+		}
+
+		// TO:DO ID SAVED TO ADD IMAGE IS DIFFERENT THEN ID STORED IN MYSQL DB!
+		const id = v4();
+		const valuesWithId = { ...values, id: id };
+
+		addProduct(valuesWithId);
+		addImage({ imageId: image, productId: id });
+
 		onOpenChange(false);
 		toast({
 			title: "Product Added!",
@@ -166,21 +188,24 @@ export function AddProductDialog({
 							)}
 						/>
 					</div>
-					<div className="flex-1 ">
+					<div className="flex flex-1 items-center justify-center ">
 						{!image ? (
 							<UploadButton
 								uploadUrl={generateUploadUrl}
 								fileTypes={["image/*"]}
+								onUploadBegin={() => setIsUploading(true)}
 								onUploadComplete={async (uploaded: UploadFileResponse[]) => {
 									setImage((uploaded[0].response as any).storageId);
+									setIsUploading(false);
 								}}
 								onUploadError={(error: unknown) => {
 									alert(`ERROR! ${error}`);
+									setIsUploading(false);
 								}}
 							/>
 						) : (
 							<Image
-								src={`${process.env.NEXT_PUBLIC_CONVEX_URL}/api/storage/${image}`}
+								src={getImageUrl(image)}
 								width={500}
 								height={500}
 								style={{ borderRadius: "3%" }}

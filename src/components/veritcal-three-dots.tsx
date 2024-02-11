@@ -27,7 +27,7 @@ export function VerticalThreeDots({ id }: { id: string }) {
 	const handleDeleteProduct = () => {
 		deleteProduct(id);
 		setDeleteDialog(false);
-		router.push("/products");
+		router.push("/");
 		toast({
 			title: "Product Deleted!",
 			description: "Product has been deleted from the database",
